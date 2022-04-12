@@ -18,7 +18,9 @@ func Deposit(amount int, wg *sync.WaitGroup, lock *sync.RWMutex) {
 }
 
 func Balance(lock *sync.RWMutex) int {
+	lock.RLock() // Bloquea la lectura
 	b := balance
+	lock.RUnlock() // Desbloquea la lectura
 	return b
 }
 
