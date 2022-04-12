@@ -9,26 +9,26 @@ var (
 	balance int = 100
 )
 
-func Deposit(amount int, wg *sync.WaitGroup, lock *sync.Mutex) {
-	defer wg.Done() // Decrementa el contador en 1.
-	lock.Lock()     // Bloquea el programa, hasta que termine las modificaciones.
+func Deposit(amount int, wg *sync.WaitGroup, lock *sync.RWMutex) {
+	defer wg.Done()
+	lock.Lock()
 	b := balance
 	balance = b + amount
-	lock.Unlock() // Desbloquea el programa, al haber terminado de hacer las modificaciones.
+	lock.Unlock()
 }
 
-func Balance() int {
+func Balance(lock *sync.RWMutex) int {
 	b := balance
 	return b
 }
 
 func main() {
 	var wg sync.WaitGroup
-	var lock sync.Mutex
+	var lock sync.RWMutex // Es un look de escritura y lectura.
 	for i := 1; i <= 5; i++ {
-		wg.Add(1) // Incrementa el contador en 1.
+		wg.Add(1)
 		go Deposit(i*100, &wg, &lock)
 	}
-	wg.Wait() // Bloquea el programa.
-	fmt.Println(Balance())
+	wg.Wait()
+	fmt.Println(Balance(&lock))
 }
