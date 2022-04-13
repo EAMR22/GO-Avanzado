@@ -18,15 +18,15 @@ func Deposit(amount int, wg *sync.WaitGroup, lock *sync.RWMutex) {
 }
 
 func Balance(lock *sync.RWMutex) int {
-	lock.RLock() // Bloquea la lectura
+	lock.RLock()
 	b := balance
-	lock.RUnlock() // Desbloquea la lectura
+	lock.RUnlock()
 	return b
 }
 
 func main() {
 	var wg sync.WaitGroup
-	var lock sync.RWMutex // Es un look de escritura y lectura.
+	var lock sync.RWMutex
 	for i := 1; i <= 5; i++ {
 		wg.Add(1)
 		go Deposit(i*100, &wg, &lock)
