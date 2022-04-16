@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	port = flag.Int("p", 3090, "port")
-	host = flag.String("h", "localhost", "host")
+	port1 = flag.Int("p", 3090, "port")
+	host1 = flag.String("h", "localhost", "host")
 )
 
 // host:port
@@ -21,7 +21,7 @@ var (
 
 func main() {
 	flag.Parse()
-	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", *host, *port))
+	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", *host1, *port1))
 	if err != nil {
 		log.Fatal(err)
 	}
